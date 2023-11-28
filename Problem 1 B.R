@@ -15,7 +15,7 @@ temp <- data.frame()
 
 for (p in percentile){
   for (a in alpha){
-    temp <- log(1-a) / log(1-p)
+    temp <- ceiling(log(1-a) / log(1-p))
     value_table <- rbind(value_table, temp)
   }
 }
