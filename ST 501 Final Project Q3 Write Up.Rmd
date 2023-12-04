@@ -19,7 +19,7 @@ rmarkdown::render("~/ST-501-Final-Project/ST 501 Final Project Q3 Write Up.Rmd",
               output_options = list(
                 toc = TRUE, 
                 toc_depth = 3,
-                number_sections = TRUE,
+                number_sections = FALSE,
                 extra_dependencies = "float"
                 )
               )
@@ -56,10 +56,51 @@ Note that $E(X(w)) = \mu_2 + w (\mu_1 - \mu_2)$. This is very similar to **Part 
 
 # Part C
 
-We can use $X_1$ and $X_2$ to model two stocks in a portfolio. Please note that this part was done all in R. We will detail our findings in this report and skip explaining many of the steps (especially the parts with code). To view the code that went on behind the scenes to please view this attachment by clicking [here](https://github.com/ericwarren9/ST-501-Final-Project/blob/main/Problem%203%20C.R). 
+We can use $X_1$ and $X_2$ to model two stocks in a portfolio. Please note that this part was done all in R. We will detail our findings in this report and skip explaining many of the steps (especially the parts with code). To view the code that went on behind the scenes to please view this attachment by clicking [the link to the R code in the introduction section](https://github.com/ericwarren9/ST-501-Final-Project/blob/main/Problem%203%20C.R). 
 
 ## Part i
 
 Estimate $c_0, c_1, a, b$, and $c$ using the moment estimates of the AAPL and
 MSFT return prices.
 
+The first step is understanding which stock represents $X_1$ with the other representing $X_2$. Remember we are told that $0 < \sigma_1^2 \leq sigma_2^2$. So we should try to find the stock with the lower variance and that will represent our $X_1$ value with the higher variance stock representing $X_2$. After doing this, we can say that MSFT represents $X_1$ and AAPL represents $X_2$. So now knowing this we can find $\mu_1$ which is MSFT's mean, $\mu_2$ which is AAPL's mean, $\sigma_1^2$ which is MSFT's variance and $\sigma_2^2$ which is AAPL's variance. We found these values to be $\mu_1 = 0.001118, \mu_2 = 0.001130, \sigma_1^2 = 0.0003831200$, and $\sigma_2^2 = 0.0004356924$. We also found the Cov$(X_1, X_2) = 0.0003105146$. 
+
+I found this interesting but using the values of we can find our correlation between both stocks to be $\rho = \frac{Cov(X_1, X_2)}{\sqrt{\sigma_1^2 * \sigma_2^2}} = \frac{0.0003105146}{\sqrt{0.0003831200 * 0.0004356924}} = 0.7600193$. So we can see that the returns of AAPL and MSFT are highly correlated. 
+
+To solve for the values, we know that $c_0 = \mu_2 = 0.001130$ and $c_1 = \mu_1 - \mu_2 = 0.001118 - 0.001130 = -0.000012$. We also know that $a = \sigma_1^2 + \sigma_2^2 - 2 \rho \sigma_1 \sigma_2 = \sigma_1^2 + \sigma_2^2 - 2 Cov(X_1, X_2) = 0.0003831200 + 0.0004356924 - 2(0.0003105146) = 0.0001977832$, and then $b = \sigma_2^2 - \rho \sigma_1 \sigma_2 = \sigma_2^2 - Cov(X_1, X_2) = 0.0004356924 - 0.0003105146 = 0.0001251778$, and lastly $c = \sigma_2^2 = 0.0004356924$.
+
+
+## Part ii
+
+Estimate the optimal w according to **Part B**.
+
+There are two cases we need to find, when $\mu_1 \geq \mu_2$ and when $\mu_2 > \mu_1$. For the first case $\mu_1 \geq \mu_2$, we already proved that the optimal w = 1. Please feel free to reference **Part B part i** to see how this is the case.
+
+Now for our second case $\mu_2 > \mu_1$, we want w to be as low as possible while still meeting the condition that $\sigma^2(w) \leq \sigma_1^2$. This was something we proved in **Part B part ii**. So what we can do set the inequality $\sigma^2(w) \leq \sigma_1^2$ and solve for what the range of w is. Then we can find the lowest value for w and that is our optimal w in this case. So we know what our inequality is:
+
+$$\sigma^2(w) \leq \sigma_1^2$$
+$$w^2 (\sigma_1^2 + \sigma_2^2 - 2 Cov(X_1, X_2)) - 2w (\sigma_2^2 - Cov(X_1, X_2)) + \sigma_2^2 \leq \sigma_1^2$$
+$$w^2 (0.0003831200 + 0.0004356924 - 2(0.0003105146)) - 2w (0.0004356924 - 0.0003105146) + 0.0004356924 \leq 0.0003831200$$
+$$0.0001977832 w^2 - 0.0002503556 w + 0.0004356924 \leq 0.0003831200$$
+$$0.0001977832 w^2 - 0.0002503556 w + 0.0004356924 - 0.0003831200 \leq 0$$
+$$0.0001977832 w^2 - 0.0002503556 w + 0.0000525724 \leq 0$$
+
+Now we can say that the equality of $0.0001977832 w^2 - 0.0002503556 w + 0.0000525724 = 0$ fits the constraints of $0.0001977832 w^2 - 0.0002503556 w + 0.0000525724 \leq 0$. This equality which is in the form of $dw^2 + ew + f = 0$ also allows us to solve for w by using the quadratic formula which if you do not remember is $w = \frac{-e \pm \sqrt{e^2 - 4 d f}}{2 d}$. In our case, $d = 0.0001977832, e = - 0.0002503556$, and $f = 0.0000525724$. So we can plug in these numbers into our quadratic formula to get $w = \frac{-(- 0.0002503556) \pm \sqrt{(- 0.0002503556)^2 - 4(0.0001977832)(0.0000525724)}}{2(0.0001977832)} = \frac{0.0002503556 \pm \sqrt{0.00000006267793 - 0.00000004159175}}{0.0003955664} = \frac{0.0002503556 \pm \sqrt{0.00000002108618}}{0.0003955664}$. Therefore, our solutions are $w = \frac{0.0002503556 - \sqrt{0.00000002108618}}{0.0003955664} = 0.2658$ and $w = \frac{0.0002503556 + \sqrt{0.00000002108618}}{0.0003955664} = 1$. This means that in order for the constraint of $\sigma^2(w) \leq \sigma_1^2$ to hold, $w \in [0.2658, 1]$. Since we have already said that the optimal w is the lowest value that meets the constraint, then our optimal w has to be equal to 0.2658.
+
+## Part iii
+
+Estimate the value-at-risk (VaR) separately for both AAPL and MSFT with
+confidence $\alpha = 0.95$. Again please reference 
+
+For calculating the VaR for each stock separately, we are first going to explain what VaR is. This is the risk of our loses and we calculate it by finding the lowest $1 - \alpha$ quantile of data and saying that we have $100 \alpha$% confidence that value at risk (or what we could expect to lose) is the $1 - \alpha$ quantile value. Now we are told that $\alpha = 0.95$ so we want to find the $1 - \alpha = 1 - 0.95 = 0.05$ quantile of a specific stock's returns. That 0.05 (or 5%) quantile value will be our VaR.
+
+So first we start with MSFT. We found the 5% quantile of MSFT returns is -0.02961778. This means with 95% confidence our losses will not exceed the amount of about 2.96% of our MSFT stock portfolio's worth in a given day or our VaR is about 2.96%. For example if our portfolio for MSFT was one million dollars then our VaR using this calculation would be about 29,600 dollars or with 95% confidence our losses will not exceed the amount of about 29,600 dollars of MSFT stock in a given day.
+
+Now let us evaluate AAPL. We found the 5% quantile of AAPL returns is -0.03224605. This means with 95% confidence our losses will not exceed the amount of about 3.22% of our AAPL stock portfolio's worth in a given day or our VaR is about 3.22%. For example if our portfolio for AAPL was one million dollars then our VaR using this calculation would be about 33,200 dollars or with 95% confidence our losses will not exceed the amount of about 33,200 dollar of AAPL stock in a given day.
+
+## Part iv
+
+Find w that minimizes the VaR for the combined portfolio of AAPL and
+MSFT for $\alpha = 0.95$.
+
+Remember that our combined portfolio returns are $X_2 + w (X_1 - X_2)$ where $X_1$ is MSFT and $X_2$ is AAPL Therefore, Now also know that $w \in [0.2658, 1]$. So what we did was do a simulation of the 5% quantile of this portfolio's returns and then find which had the best VaR (in this case we are trying to find which 5% quantile negative return value is as close to 0 -- or not losing anything -- as possible). We did the simulation increasing the value of w by 0.0001 in the interval of [0.2658, 1] and found that when w is 0.6891 it had the best VaR value of -0.02803917. That means if our goal is to minimize our VaR we should choose our w value to be 0.6891, or in investing terms we should get 0.6891 units of MSFT and 0.3109 units of AAPL per 1 unit in our portfolio of these two stocks. When doing this, we have 95% confidence our losses will not exceed the amount of about 2.80% of our portfolio's worth in a given day.
