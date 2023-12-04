@@ -1,0 +1,65 @@
+---
+title: "ST 501 Final Project Q3 Write Up"
+author: "Eric Warren"
+date: "`r Sys.Date()`"
+urlcolor: blue
+header-includes:
+  - \usepackage{float}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, fig.pos = "H", out.extra = "")
+options(scipen = 999)
+```
+
+```{r output setup, eval=FALSE, echo=FALSE}
+# This code allows us to render a pdf document
+rmarkdown::render("~/ST-501-Final-Project/ST 501 Final Project Q3 Write Up.Rmd", 
+              output_format = "pdf_document", 
+              output_options = list(
+                toc = TRUE, 
+                toc_depth = 3,
+                number_sections = TRUE,
+                extra_dependencies = "float"
+                )
+              )
+```
+
+# Introduction
+
+Here we are going to let $X_1$ and $X_2$ be random variables with $E[X_i] = \mu_i$ and Var$(X_i) = \sigma_i^2$ for i = 1, 2. We are going to assume that $0 < \sigma_1^2 \leq \sigma_2^2$. We are also going to define our weighted random variable X(w), which will end up being our portfolio between two stocks. We will say that $X(w) = wX_1 + (1-w) X_2$ for $w \in [0, 1]$ and $\rho$ is the correlation between $X_1$ and $X_2$.
+
+# Part A
+
+For any $w \in [0,1]$, find $c_0, c_1, a, b$, and $c$ such that $E(X(w)) = \mu(w) = c_0 + c_1 w$ and Var$(X(w)) = \sigma^2(w) = aw^2 - 2bw + c$.
+
+Here we can first find the $E(X(w)) = E(wX_1 + (1-w) X_2) = E(wX_1) + E((1-w) X_2) = w E(X_1) + (1-w) E(X_2) = w\mu_1 + (1-w) \mu_2 = w\mu_1 + \mu_2 - w\mu_2 = \mu_2 + w (\mu_1 - \mu_2)$. Therefore, $c_0 = \mu_2$ and $c_1 = \mu_1 - \mu_2$. 
+
+Now we can find Var$(X(w)) = Var(w X_1 + (1-w) X_2) = w^2 Var(X_1) + (1-w)^2 Var(X_2) + 2Cov(xX_1, (1-w) X_2) = w^2 \sigma_1^2 + (w^2 - 2w + 1) \sigma_2^2 + 2w(1-w) Cov(X_1, X_2) = w^2 \sigma_1^2 + (w^2 - 2w + 1) \sigma_2^2 + (2w - 2w^2) (\rho \sigma_1 \sigma_2) = w^2 \sigma_1^2 + w^2 \sigma_2^2 - 2w \sigma_2^2 + \sigma_2^2 + 2w \rho \sigma_1 \sigma_2 - 2w^2 \rho \sigma_1 \sigma_2 = w^2 (\sigma_1^2 + \sigma_2^2 - 2 \rho \sigma_1 \sigma_2) - 2w (\sigma_2^2 - \rho \sigma_1 \sigma_2) + \sigma_2^2$. Also if we say that $\rho \sigma_1 \sigma_2 = Cov(X_1, X_2)$ then our final answer of $w^2 (\sigma_1^2 + \sigma_2^2 - 2 \rho \sigma_1 \sigma_2) - 2w (\sigma_2^2 - \rho \sigma_1 \sigma_2) + \sigma_2^2 = w^2 (\sigma_1^2 + \sigma_2^2 - 2 Cov(X_1, X_2)) - 2w (\sigma_2^2 - Cov(X_1, X_2)) + \sigma_2^2$. Therefore, we can clearly see that $a = \sigma_1^2 + \sigma_2^2 - 2 \rho \sigma_1 \sigma_2 = \sigma_1^2 + \sigma_2^2 - 2 Cov(X_1, X_2), b = \sigma_2^2 - \rho \sigma_1 \sigma_2 = \sigma_2^2 - Cov(X_1, X_2)$, and $c = \sigma_2^2$.
+
+# Part B
+
+Suppose we want to find $w \in [0, 1]$ that maximizes $\mu(w)$ subject to the
+constraint that $\sigma^2(w) \leq \sigma_1^2$. 
+
+## Part i
+
+If $\mu_1 \geq \mu_2$, show that w = 1 solves the optimization.
+
+Note that $E(X(w)) = \mu_2 + w (\mu_1 - \mu_2)$ so if we want the highest expected return (aka larger $E(X(w))$) then we want w to be as high as possible fitting our constraint to minimize the effect $\mu_2$ has on the equation and maximize the effect $\mu_1$ has since we know that $\mu_1 \geq \mu_2$. Note the highest w we can have is 1 because $w \in [0, 1]$. If w = 1 (the maximum value), then our variance $\sigma^2(w) = w^2 (\sigma_1^2 + \sigma_2^2 - 2 \rho \sigma_1 \sigma_2) - 2w (\sigma_2^2 - \rho \sigma_1 \sigma_2) + \sigma_2^2 = 1^2 (\sigma_1^2 + \sigma_2^2 - 2 \rho \sigma_1 \sigma_2) - 2*1 (\sigma_2^2 - \rho \sigma_1 \sigma_2) + \sigma_2^2 = \sigma_1^2 + \sigma_2^2 - 2 \rho \sigma_1 \sigma_2 - 2 \sigma_2^2 + 2 \rho \sigma_1 \sigma_2 + \sigma_2^2 = \sigma_1^2 + (1-2+1) \sigma_2^2 + (-2+2) \rho \sigma_1 \sigma_2 = \sigma_1^2 + 0 \sigma_2^2 + 0 \rho \sigma_1 \sigma_2 = \sigma_1^2$. Now to check the constraint, $\sigma^2(w) = \sigma_1^2 \leq \sigma_1^2$ is a true statement, so we have shown that w = 1 maximizes our $\mu(w)$.
+
+## Part ii
+
+If $\mu_1 < \mu_2$, show that the optimal w is given by the smallest $w \in [0,1]$ that satisfies the constraint $\sigma^2(w) \leq \sigma_1^2$.
+
+Note that $E(X(w)) = \mu_2 + w (\mu_1 - \mu_2)$. This is very similar to **Part i** but the reverse. Now if we want the highest expected return (aka larger $E(X(w))$) then we want w to be as low as possible fitting our constraint to minimize the effect $\mu_1$ has on the equation and maximize the effect $\mu_2$ has since we know that $\mu_2 > \mu_1$. Therefore, the optimal w has to be the smallest $w \in [0,1]$ that satisfies the constraint $\sigma^2(w) \leq \sigma_1^2$ in order for this to occur.
+
+# Part C
+
+We can use $X_1$ and $X_2$ to model two stocks in a portfolio. Please note that this part was done all in R. We will detail our findings in this report and skip explaining many of the steps (especially the parts with code). To view the code that went on behind the scenes to please view this attachment by clicking [here](https://github.com/ericwarren9/ST-501-Final-Project/blob/main/Problem%203%20C.R). 
+
+## Part i
+
+Estimate $c_0, c_1, a, b$, and $c$ using the moment estimates of the AAPL and
+MSFT return prices.
+
