@@ -102,7 +102,7 @@ lower_quadratic
 
 # Part iii ----------------------------------------------------------------
 
-### Es8mate the value-at-risk (VaR) separately for both AAPL and MSFT with confidence alpha = 0.95.
+### Estimate the value-at-risk (VaR) separately for both AAPL and MSFT with confidence alpha = 0.95.
 
 # Get the VaR 1 - alpha quantile
 alpha = 0.95
