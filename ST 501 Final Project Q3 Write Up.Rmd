@@ -104,3 +104,25 @@ Find w that minimizes the VaR for the combined portfolio of AAPL and
 MSFT for $\alpha = 0.95$.
 
 Remember that our combined portfolio returns are $X_2 + w (X_1 - X_2)$ where $X_1$ is MSFT and $X_2$ is AAPL Therefore, Now also know that $w \in [0.2658, 1]$. So what we did was do a simulation of the 5% quantile of this portfolio's returns and then find which had the best VaR (in this case we are trying to find which 5% quantile negative return value is as close to 0 -- or not losing anything -- as possible). We did the simulation increasing the value of w by 0.0001 in the interval of [0.2658, 1] and found that when w is 0.6891 it had the best VaR value of -0.02803917. That means if our goal is to minimize our VaR we should choose our w value to be 0.6891, or in investing terms we should get 0.6891 units of MSFT and 0.3109 units of AAPL per 1 unit in our portfolio of these two stocks. When doing this, we have 95% confidence our losses will not exceed the amount of about 2.80% of our portfolio's worth in a given day.
+
+# Question 2Ai
+
+Let $X \sim$ Exp$(\lambda = 1)$. Show that the minimum order statistic converges to 0 as $n \to \infty$.
+
+First let us remember the density for an order statistic. It is $f_{(k)}(X) = \frac{n!}{(n-1)!} (f(x)) (F(x))^{k-1} (1 - F(x))^{n-k} = n (f(x)) (F(x))^{k-1} (1 - F(x))^{n-k}$. Now in our case we are trying to find the minimum order statistic which is $X_{(1)}$ so we can see that $k = 1$. Also note that for $X \sim$ Exp$(\lambda = 1)$ $f(x) = \lambda e^{-\lambda x}$ and $F(x) = 1 - e^{-\lambda x}$. Also note that $\lambda = 1$ in our function's case which we can plug in later. Therefore we can plug in our formula to get 
+
+$$f_{X_{(1)}}(X_{(1)})$$
+$$= n (f(x)) (F(x))^{k-1} (1 - F(x))^{n-k}$$ 
+$$= n (f(x)) (F(x))^{1-1} (1 - F(x))^{n-1}$$
+$$= n (f(x)) (1 - F(x))^{n-1}$$ 
+$$= n (\lambda e^{\lambda x}) (1 - (1 - e^{\lambda x}))^{n - 1}$$
+$$= n (1 e^{-1x}) (1 + -1 + e^{-1 x})^{n - 1}$$
+$$= n (e^{-x}) (e^{-x})^{n - 1}$$
+$$= n (e^{-x})^n$$
+$$= ne^{-nx}$$
+
+Now note that we get $f_{X_{(1)}}(X_{(1)}) = ne^{-nx}$ which if we treat n as $\lambda$ then we just have another exponential random variable from this where $X_{(1)} \sim$ Exp(n). Anyways, to the minimum order statistic converges to 0 as $n \to \infty$, we have to show that its expected value and variance both converge to 0 as $n \to \infty$. 
+
+First, we will show the expected value converges. Since we said that the minimum order statistic is just another exponential random variable, we know its expected value is just $E(X_1) = \frac{1}{n}$ (since for exponential random variables when $X \sim$ Exp$(\lambda)$, $E(X) = \frac{1}{\lambda}$). Now we can take the limit as $\lim_{n\to\infty} E(X_{(1)}) = \lim_{n\to\infty} \frac{1}{n} = \frac{1}{\infty} = 0$. So we have shown that its expected value converges to 0.
+
+Now we will show its variance converges. Since we said that the minimum order statistic is just another exponential random variable, we know its variance is just $V(X_1) = \frac{1}{n^2}$ (since for exponential random variables when $X \sim$ Exp$(\lambda)$, $Var(X) = \frac{1}{\lambda^2}$). Now we can take the limit as $\lim_{n\to\infty} Var(X_{(1)}) = \lim_{n\to\infty} \frac{1}{n^2} = \frac{1}{\infty^2} = 0$. So we have shown that its variance converges to 0. Since both its expected value and variance both converge to 0 as $n \to \infty$ then we know that the minimum order statistic converges to 0 as $n \to \infty$ if $X \sim$ Exp$(\lambda = 1)$.
