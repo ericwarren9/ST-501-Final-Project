@@ -13,8 +13,8 @@ temp <- data.frame()
 
 # Make for loop for values ------------------------------------------------
 
-for (p in percentile){
-  for (a in alpha){
+for (a in alpha){
+  for (p in percentile){
     temp <- ceiling(log(1-a) / log(1-p))
     value_table <- rbind(value_table, temp)
   }
