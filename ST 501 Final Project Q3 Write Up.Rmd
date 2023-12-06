@@ -126,3 +126,21 @@ Now note that we get $f_{X_{(1)}}(X_{(1)}) = ne^{-nx}$ which if we treat n as $\
 First, we will show the expected value converges. Since we said that the minimum order statistic is just another exponential random variable, we know its expected value is just $E(X_1) = \frac{1}{n}$ (since for exponential random variables when $X \sim$ Exp$(\lambda)$, $E(X) = \frac{1}{\lambda}$). Now we can take the limit as $\lim_{n\to\infty} E(X_{(1)}) = \lim_{n\to\infty} \frac{1}{n} = \frac{1}{\infty} = 0$. So we have shown that its expected value converges to 0.
 
 Now we will show its variance converges. Since we said that the minimum order statistic is just another exponential random variable, we know its variance is just $V(X_1) = \frac{1}{n^2}$ (since for exponential random variables when $X \sim$ Exp$(\lambda)$, $Var(X) = \frac{1}{\lambda^2}$). Now we can take the limit as $\lim_{n\to\infty} Var(X_{(1)}) = \lim_{n\to\infty} \frac{1}{n^2} = \frac{1}{\infty^2} = 0$. So we have shown that its variance converges to 0. Since both its expected value and variance both converge to 0 as $n \to \infty$ then we know that the minimum order statistic converges to 0 as $n \to \infty$ if $X \sim$ Exp$(\lambda = 1)$.
+
+# Question 1A Formula
+
+## Proof
+
+$$P(X_{(1)} \leq Q_p \leq X_{(n)}) \geq \alpha$$
+$$P(Q_p \leq X_{(n)}) - P(Q_p \leq X_{(1)}) \geq \alpha$$
+$$P(F^{-1}(p) \leq X_{(n)}) - P(F^{-1}(p) \leq X_{(1)}) \geq \alpha$$
+$$P(p \leq F(X_{(n)})) - P(p \leq F(X_{(1)})) \geq \alpha$$
+$$1 - P(F(X_{(n)}) < p) - (1 - P(F(X_{(1)}) < p)) \geq \alpha$$
+$$1 - p^n - (1 - (1 - (1-p)^n)) \geq \alpha$$
+$$1 - p^n - (1-p)^n \geq \alpha$$
+
+## Note section
+
+When finding $P(F(X_{(n)}) < p) = F_{X_{(n)}}(p)$ we know we need to find the CDF of our function ($F_{X_{(n)}}(p)$). We also know for a maximum order statistic that $F_{X_{(n)}}(p) = P(X_1 < p) * ... P(X_n < p) = (F(p))^n$ and we know that $F(p) = p$. Therefore, $(F(p))^n = p^n$ so $P(F(X_{(n)}) < p) = p^n$.
+
+When finding $P(F(X_{(1)}) < p) = F_{X_{(1)}}(p)$ we know we need to find the CDF of our function ($F_{X_{(1)}}(p)$). We also know for a minimum order statistic that $F_{X_{(1)}}(p) = 1 - (1 - F(p))^n$ and we know that $F(p) = p$. Therefore, $1 - (1 - F(p)^n) = 1 - (1 - p)^n)$ so $P(F(X_{(1)}) < p) = 1 - (1 - p)^n$.
