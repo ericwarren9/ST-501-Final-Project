@@ -3,6 +3,7 @@
 
 # Load in packages --------------------------------------------------------
 
+# install.packages(c("tidyverse", "quantmod")) # Uncomment code if you do not have package already
 library(tidyverse)
 library(quantmod)
 
