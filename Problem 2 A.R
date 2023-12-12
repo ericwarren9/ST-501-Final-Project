@@ -1,3 +1,5 @@
+library(tidyverse)
+
 # Set the seed for reproducibility
 set.seed(123)
 
@@ -42,14 +44,10 @@ for (i in 1:N) {
 
 min_values_df$prob <- ifelse(abs(min_values_df$Minimum) < 0.05, 0, 1)
 
-install.packages("dplyr")
-library(dplyr)
-
 percentage_zeros <- min_values_df %>%
   group_by(SampleSize) %>%
   summarize(PercentageZeros = mean(prob == 0) * 100)
 
-library(ggplot2)
 ggplot(percentage_zeros, aes(x = SampleSize, y = PercentageZeros)) +
   geom_line() +
   labs(title = "P( |X(1) - 0| < 0.05 ) ",
