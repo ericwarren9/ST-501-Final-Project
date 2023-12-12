@@ -53,4 +53,5 @@ ggplot(percentage_zeros, aes(x = SampleSize, y = PercentageZeros)) +
   geom_line() +
   labs(title = "P( |X(1) - 0| < 0.05 ) ",
        x = "Sample Size",
-       y = "Probability")
+       y = "Probability") + 
+  theme_bw()
