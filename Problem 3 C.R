@@ -143,7 +143,7 @@ VaR_values <- cbind(w_scalar, VaR_values)
 colnames(VaR_values) <- c("w", "VaR")
 
 # Check to make sure all values are negative
-VaR_values[VaR_values$VaR >= 0, ] # No rows so all are negative (preceived loss)
+VaR_values[VaR_values$VaR >= 0, ] # No rows so all are negative (perceived loss)
 
 # Find the max VaR value (since we want VaR to be as close to zero and all values are negative) and the corresponding w with it
 VaR_values[which.max(VaR_values$VaR),] # As we can see when w = 0.6891 our VaR is the best and we know that this meets the criteria for variance
